@@ -11,4 +11,8 @@ if [ ! -f config.json ]; then
   jq .transportApi.operatingHours=\""${transportApi_operatingHours}"\" config.json | sponge config.json
 fi
 
+echo "Starting app..."
 python ./src/main.py
+
+
+while : ; do echo "${MESSAGE=Idling...}"; sleep ${INTERVAL=600}; done

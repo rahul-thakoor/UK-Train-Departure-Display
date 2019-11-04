@@ -13,6 +13,7 @@ from trains import loadDeparturesForStation, loadDestinationsForDeparture
 from luma.core.interface.serial import spi
 from luma.core.render import canvas
 from luma.oled.device import ssd1322
+from luma.emulator.device import pygame
 from luma.core.virtual import viewport, snapshot
 from luma.core.sprite_system import framerate_regulator
 
@@ -259,8 +260,9 @@ def drawSignage(device, width, height, data):
 try:
     config = loadConfig()
 
-    serial = spi()
-    device = ssd1322(serial, mode="1", rotate=2)
+    # serial = spi()
+    # print("using pygame as emulator")
+    device = pygame(mode="1", rotate=0)
     font = makeFont("Dot Matrix Regular.ttf", 10)
     fontBold = makeFont("Dot Matrix Bold.ttf", 10)
     fontBoldTall = makeFont("Dot Matrix Bold Tall.ttf", 10)
@@ -273,7 +275,7 @@ try:
     pauseCount = 0
     loop_count = 0
 
-    regulator = framerate_regulator(fps=10)
+    regulator = framerate_regulator(fps=60)
 
     data = loadData(config["transportApi"], config["journey"])
     if data[0] == False:
